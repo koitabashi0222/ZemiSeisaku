@@ -1,38 +1,39 @@
 using UnityEngine;
-using BLINDED_AM_ME;
 using System.Collections.Generic;
 using System.Collections;
+using BLINDED_AM_ME;
+
 public class FruitCutter : MonoBehaviour
 {
-    public GameObject cuttingPlane;       // 切断面を示すプレーン
-    public Material capMaterialCenter;    // 中心に近い部分の切断面に使用するマテリアル
-    public Material capMaterialEdge;      // 端に近い部分の切断面に使用するマテリアル
-    public Vector3 cuttingBoxSize = new Vector3(2, 0.01f, 2);  // 切断面の範囲
-    public string targetTag = "Cuttable"; // 切断可能なオブジェクトのタグ
-    public float distanceThreshold = 0.5f; // 中心からどれくらいの距離でマテリアルを変えるか
-    private HashSet<GameObject> alreadyCutObjects = new HashSet<GameObject>(); // 切断済みのオブジェクトを管理
+    public GameObject cuttingPlane;
+    public Material capMaterialCenter;
+    public Material capMaterialEdge;
+    public Vector3 cuttingBoxSize = new Vector3(2, 0.01f, 2);
+    public string targetTag = "Cuttable";
+    public float distanceThreshold = 0.5f;
+    private HashSet<GameObject> alreadyCutObjects = new HashSet<GameObject>();
+
     private void OnTriggerEnter(Collider other)
     {
-        // オブジェクトが "Cuttable" タグを持っていて、かつまだ切断されていないか確認
         if (other.CompareTag(targetTag) && !alreadyCutObjects.Contains(other.gameObject))
         {
             MeshRenderer targetRenderer = other.GetComponent<MeshRenderer>();
             if (targetRenderer != null)
             {
-                Bounds targetBounds = targetRenderer.bounds;
+                // 毎回 cuttingBounds を更新
                 Bounds cuttingBounds = new Bounds(cuttingPlane.transform.position, cuttingBoxSize);
-                if (cuttingBounds.Intersects(targetBounds)) // 交差していれば切断
+                Bounds targetBounds = targetRenderer.bounds;
+
+                // 範囲を確認して切断処理を実行
+                if (cuttingBounds.Intersects(targetBounds))
                 {
                     PerformCut(other.gameObject);
-                    alreadyCutObjects.Add(other.gameObject); // 切断済みとして登録
-                }
-                else
-                {
-                    Debug.Log("オブジェクトが切断面に触れていません。");
+                    alreadyCutObjects.Add(other.gameObject);
                 }
             }
         }
     }
+
     void PerformCut(GameObject target)
     {
         Vector3 anchorPoint = cuttingPlane.transform.position;
@@ -47,12 +48,10 @@ public class FruitCutter : MonoBehaviour
         {
             foreach (GameObject piece in pieces)
             {
-                Rigidbody rb = piece.AddComponent<Rigidbody>();
+                Rigidbody rb = piece.AddComponent<Rigidbody>();  // Rigidbody のみ追加
                 rb.mass = 1;
-                rb.AddForce(Vector3.up * Random.Range(1f, 3f), ForceMode.Impulse);
-                rb.AddTorque(new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)), ForceMode.Impulse);
 
-                StartCoroutine(HideAfterDelay(piece, 5f)); // 5秒後に非表示
+                StartCoroutine(HideAfterDelay(piece, 5f));
                 alreadyCutObjects.Add(piece);
             }
         }
@@ -61,8 +60,10 @@ public class FruitCutter : MonoBehaviour
     IEnumerator HideAfterDelay(GameObject piece, float delay)
     {
         yield return new WaitForSeconds(delay);
-        piece.SetActive(false); // 非表示にする
+        piece.SetActive(false);
+        alreadyCutObjects.Remove(piece); // メモリ管理のため削除
     }
+
     void OnDrawGizmos()
     {
         if (cuttingPlane != null)
@@ -74,6 +75,9 @@ public class FruitCutter : MonoBehaviour
         }
     }
 }
+
+
+
 
 
 
