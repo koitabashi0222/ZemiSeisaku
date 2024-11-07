@@ -1,6 +1,7 @@
 using UnityEngine;
 using BLINDED_AM_ME;
 using System.Collections.Generic;
+using System.Collections;
 public class FruitCutter : MonoBehaviour
 {
     public GameObject cuttingPlane;       // 切断面を示すプレーン
@@ -36,11 +37,11 @@ public class FruitCutter : MonoBehaviour
     {
         Vector3 anchorPoint = cuttingPlane.transform.position;
         Vector3 normalDirection = cuttingPlane.transform.up;
-        // ターゲットの中心と切断面の中心の距離を計算
+
         Vector3 targetCenter = target.GetComponent<Collider>().bounds.center;
         float distanceFromCenter = Vector3.Distance(targetCenter, anchorPoint);
-        // 距離に応じたマテリアルを設定（インスペクターで設定可能な distanceThreshold を使用）
         Material selectedCapMaterial = (distanceFromCenter < distanceThreshold) ? capMaterialCenter : capMaterialEdge;
+
         GameObject[] pieces = MeshCut.Cut(target, anchorPoint, normalDirection, selectedCapMaterial);
         if (pieces != null)
         {
@@ -50,9 +51,17 @@ public class FruitCutter : MonoBehaviour
                 rb.mass = 1;
                 rb.AddForce(Vector3.up * Random.Range(1f, 3f), ForceMode.Impulse);
                 rb.AddTorque(new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)), ForceMode.Impulse);
-                alreadyCutObjects.Add(piece); // 新たに生成されたピースも切断済みとして登録
+
+                StartCoroutine(HideAfterDelay(piece, 5f)); // 5秒後に非表示
+                alreadyCutObjects.Add(piece);
             }
         }
+    }
+
+    IEnumerator HideAfterDelay(GameObject piece, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        piece.SetActive(false); // 非表示にする
     }
     void OnDrawGizmos()
     {
