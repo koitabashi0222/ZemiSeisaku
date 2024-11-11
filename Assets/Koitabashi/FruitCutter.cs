@@ -13,6 +13,9 @@ public class FruitCutter : MonoBehaviour
     public float distanceThreshold = 0.5f;
     private HashSet<GameObject> alreadyCutObjects = new HashSet<GameObject>();
 
+    public float forceAmount = 10f;  // ‚Á”ò‚Î‚·—Í‚Ì‘å‚«‚³
+    public Vector3 direction = Vector3.up;  // —Í‚ğ‰Á‚¦‚é•ûŒü
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(targetTag) && !alreadyCutObjects.Contains(other.gameObject))
@@ -50,14 +53,15 @@ public class FruitCutter : MonoBehaviour
             {
                 Rigidbody rb = piece.AddComponent<Rigidbody>();  // Rigidbody ‚Ì‚İ’Ç‰Á
                 rb.mass = 1;
-
-                StartCoroutine(HideAfterDelay(piece, 5f));
+                Vector3 knockbackDirection = new Vector3(0, 1, 1).normalized;  // •ûŒü‚ğ³‹K‰»
+                rb.AddForce(knockbackDirection * forceAmount, ForceMode.Force);
+                StartCoroutine(HideAfterDelay(piece, rb, 5f));
                 alreadyCutObjects.Add(piece);
             }
         }
     }
 
-    IEnumerator HideAfterDelay(GameObject piece, float delay)
+    IEnumerator HideAfterDelay(GameObject piece, Rigidbody rb, float delay)
     {
         yield return new WaitForSeconds(delay);
         piece.SetActive(false);
