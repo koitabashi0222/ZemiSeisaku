@@ -14,7 +14,6 @@ public class FruitCutter : MonoBehaviour
     private HashSet<GameObject> alreadyCutObjects = new HashSet<GameObject>();
 
     public float forceAmount = 10f;  // ‚Á”ò‚Î‚·—Í‚Ì‘å‚«‚³
-    public Vector3 direction = Vector3.up;  // —Í‚ğ‰Á‚¦‚é•ûŒü
 
     private void OnTriggerEnter(Collider other)
     {
