@@ -1,7 +1,6 @@
 using UnityEngine;
-using System.Collections.Generic;
 using System.Collections;
-using BLINDED_AM_ME;
+using System.Collections.Generic;
 
 public class FruitCutter : MonoBehaviour
 {
@@ -20,11 +19,9 @@ public class FruitCutter : MonoBehaviour
             MeshRenderer targetRenderer = other.GetComponent<MeshRenderer>();
             if (targetRenderer != null)
             {
-                // 毎回 cuttingBounds を更新
                 Bounds cuttingBounds = new Bounds(cuttingPlane.transform.position, cuttingBoxSize);
                 Bounds targetBounds = targetRenderer.bounds;
 
-                // 範囲を確認して切断処理を実行
                 if (cuttingBounds.Intersects(targetBounds))
                 {
                     PerformCut(other.gameObject);
@@ -43,12 +40,14 @@ public class FruitCutter : MonoBehaviour
         float distanceFromCenter = Vector3.Distance(targetCenter, anchorPoint);
         Material selectedCapMaterial = (distanceFromCenter < distanceThreshold) ? capMaterialCenter : capMaterialEdge;
 
-        GameObject[] pieces = MeshCut.Cut(target, anchorPoint, normalDirection, selectedCapMaterial);
-        if (pieces != null)
+        // MeshCutNeo の CutMesh メソッドを使用してオブジェクトを切断
+        (GameObject pieceA, GameObject pieceB) = MeshCuNeo.CutMesh(target, anchorPoint, normalDirection, true, selectedCapMaterial);
+        
+        if (pieceA != null && pieceB != null)
         {
-            foreach (GameObject piece in pieces)
+            foreach (GameObject piece in new GameObject[] { pieceA, pieceB })
             {
-                Rigidbody rb = piece.AddComponent<Rigidbody>();  // Rigidbody のみ追加
+                Rigidbody rb = piece.AddComponent<Rigidbody>();
                 rb.mass = 1;
 
                 StartCoroutine(HideAfterDelay(piece, 5f));
@@ -57,11 +56,12 @@ public class FruitCutter : MonoBehaviour
         }
     }
 
+
     IEnumerator HideAfterDelay(GameObject piece, float delay)
     {
         yield return new WaitForSeconds(delay);
         piece.SetActive(false);
-        alreadyCutObjects.Remove(piece); // メモリ管理のため削除
+        alreadyCutObjects.Remove(piece);
     }
 
     void OnDrawGizmos()
@@ -75,6 +75,91 @@ public class FruitCutter : MonoBehaviour
         }
     }
 }
+
+
+
+
+
+
+
+
+//using UnityEngine;
+//using System.Collections.Generic;
+//using System.Collections;
+//using BLINDED_AM_ME;
+
+//public class FruitCutter : MonoBehaviour
+//{
+//    public GameObject cuttingPlane;
+//    public Material capMaterialCenter;
+//    public Material capMaterialEdge;
+//    public Vector3 cuttingBoxSize = new Vector3(2, 0.01f, 2);
+//    public string targetTag = "Cuttable";
+//    public float distanceThreshold = 0.5f;
+//    private HashSet<GameObject> alreadyCutObjects = new HashSet<GameObject>();
+
+//    private void OnTriggerEnter(Collider other)
+//    {
+//        if (other.CompareTag(targetTag) && !alreadyCutObjects.Contains(other.gameObject))
+//        {
+//            MeshRenderer targetRenderer = other.GetComponent<MeshRenderer>();
+//            if (targetRenderer != null)
+//            {
+//                // 毎回 cuttingBounds を更新
+//                Bounds cuttingBounds = new Bounds(cuttingPlane.transform.position, cuttingBoxSize);
+//                Bounds targetBounds = targetRenderer.bounds;
+
+//                // 範囲を確認して切断処理を実行
+//                if (cuttingBounds.Intersects(targetBounds))
+//                {
+//                    PerformCut(other.gameObject);
+//                    alreadyCutObjects.Add(other.gameObject);
+//                }
+//            }
+//        }
+//    }
+
+//    void PerformCut(GameObject target)
+//    {
+//        Vector3 anchorPoint = cuttingPlane.transform.position;
+//        Vector3 normalDirection = cuttingPlane.transform.up;
+
+//        Vector3 targetCenter = target.GetComponent<Collider>().bounds.center;
+//        float distanceFromCenter = Vector3.Distance(targetCenter, anchorPoint);
+//        Material selectedCapMaterial = (distanceFromCenter < distanceThreshold) ? capMaterialCenter : capMaterialEdge;
+
+//        GameObject[] pieces = MeshCut.Cut(target, anchorPoint, normalDirection, selectedCapMaterial);
+//        if (pieces != null)
+//        {
+//            foreach (GameObject piece in pieces)
+//            {
+//                Rigidbody rb = piece.AddComponent<Rigidbody>();  // Rigidbody のみ追加
+//                rb.mass = 1;
+
+//                StartCoroutine(HideAfterDelay(piece, 5f));
+//                alreadyCutObjects.Add(piece);
+//            }
+//        }
+//    }
+
+//    IEnumerator HideAfterDelay(GameObject piece, float delay)
+//    {
+//        yield return new WaitForSeconds(delay);
+//        piece.SetActive(false);
+//        alreadyCutObjects.Remove(piece); // メモリ管理のため削除
+//    }
+
+//    void OnDrawGizmos()
+//    {
+//        if (cuttingPlane != null)
+//        {
+//            Vector3 anchorPoint = cuttingPlane.transform.position;
+//            Gizmos.color = Color.black;
+//            Gizmos.matrix = Matrix4x4.TRS(anchorPoint, cuttingPlane.transform.rotation, Vector3.one);
+//            Gizmos.DrawWireCube(Vector3.zero, cuttingBoxSize);
+//        }
+//    }
+//}
 
 
 
