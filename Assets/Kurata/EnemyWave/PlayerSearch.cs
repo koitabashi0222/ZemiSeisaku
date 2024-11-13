@@ -5,6 +5,7 @@ using UnityEngine.Animations;
 
 public class PlayerSearch : MonoBehaviour
 {
+    public float speed = 0.5f;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +23,6 @@ public class PlayerSearch : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             Vector3 targetPosition = other.transform.parent.position;// otherの親オブジェクトの位置の座標を指定
-            float speed = 0.5f; // 移動の速度を指定
 
             Transform objectTransform = this.transform.parent;//gameObject.GetComponent<Transform>(); // ゲームオブジェクトのTransformコンポーネントを取得
             objectTransform.position = Vector3.Lerp(objectTransform.position, targetPosition, speed * Time.deltaTime); // 目的の位置に移動
