@@ -14,6 +14,7 @@ public class FruitCutter : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        // オブジェクトが "Cuttable" タグを持っていて、かつまだ切断されていないか確認
         if (other.CompareTag(targetTag) && !alreadyCutObjects.Contains(other.gameObject))
         {
             MeshRenderer targetRenderer = other.GetComponent<MeshRenderer>();
@@ -22,10 +23,11 @@ public class FruitCutter : MonoBehaviour
                 Bounds cuttingBounds = new Bounds(cuttingPlane.transform.position, cuttingBoxSize);
                 Bounds targetBounds = targetRenderer.bounds;
 
+                // 範囲を確認して切断処理を実行
                 if (cuttingBounds.Intersects(targetBounds))
                 {
                     PerformCut(other.gameObject);
-                    alreadyCutObjects.Add(other.gameObject);
+                    alreadyCutObjects.Add(other.gameObject); // 切断済みとして登録
                 }
             }
         }
@@ -41,27 +43,28 @@ public class FruitCutter : MonoBehaviour
         Material selectedCapMaterial = (distanceFromCenter < distanceThreshold) ? capMaterialCenter : capMaterialEdge;
 
         // MeshCutNeo の CutMesh メソッドを使用してオブジェクトを切断
-        (GameObject pieceA, GameObject pieceB) = MeshCuNeo.CutMesh(target, anchorPoint, normalDirection, true, selectedCapMaterial);
-        
+        (GameObject pieceA, GameObject pieceB) = MeshCutNeo.CutMesh(target, anchorPoint, normalDirection, true, selectedCapMaterial);
+
         if (pieceA != null && pieceB != null)
         {
+            // 新たに生成されたピースをalreadyCutObjectsに追加
+            alreadyCutObjects.Add(pieceA);
+            alreadyCutObjects.Add(pieceB);
+
             foreach (GameObject piece in new GameObject[] { pieceA, pieceB })
             {
                 Rigidbody rb = piece.AddComponent<Rigidbody>();
                 rb.mass = 1;
-
                 StartCoroutine(HideAfterDelay(piece, 5f));
-                alreadyCutObjects.Add(piece);
             }
         }
     }
-
 
     IEnumerator HideAfterDelay(GameObject piece, float delay)
     {
         yield return new WaitForSeconds(delay);
         piece.SetActive(false);
-        alreadyCutObjects.Remove(piece);
+        alreadyCutObjects.Remove(piece); // メモリ管理のため削除
     }
 
     void OnDrawGizmos()
@@ -75,6 +78,7 @@ public class FruitCutter : MonoBehaviour
         }
     }
 }
+
 
 
 
