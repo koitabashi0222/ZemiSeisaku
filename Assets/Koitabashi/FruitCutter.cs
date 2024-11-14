@@ -59,7 +59,7 @@ public class FruitCutter : MonoBehaviour
                 Rigidbody rb = piece.AddComponent<Rigidbody>();  // Rigidbody ÅEΩÃÇ›í«âÔøΩ
                 rb.mass = 1;
                 Vector3 knockbackDirection = new Vector3(0, 1, 1).normalized;  // ï˚å¸Çê≥ãKâª
-                rb.AddForce(knockbackDirection * forceAmount, ForceMode.Force);
+                rb.AddForce(knockbackDirection * forceAmount, ForceMode.Impulse);
                 StartCoroutine(HideAfterDelay(piece, rb, 5f));
                 alreadyCutObjects.Add(piece);
             }
