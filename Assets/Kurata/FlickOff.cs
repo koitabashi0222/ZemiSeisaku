@@ -3,6 +3,8 @@ using UnityEngine;
 public class FlickOff : MonoBehaviour
 {
     private Animator anim;
+    //private Rigidbody rbPare;
+    private Transform parentTransform;
     public float forceAmount = 10f;
     public float rotationSpeed = 60f;
 
@@ -12,7 +14,8 @@ public class FlickOff : MonoBehaviour
     void Start()
     {
         anim = gameObject.GetComponent<Animator>();
-        
+        //rbPare = gameObject.GetComponentInParent<Rigidbody>();
+        parentTransform = gameObject.GetComponentInParent<Transform>();
     }
 
     // Update is called once per frame
@@ -38,12 +41,12 @@ public class FlickOff : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.CompareTag("Player"))
         {
             anim.SetBool("AnimOn", true);
         }
 
-        if (other.tag == "katana")
+        if (other.CompareTag("katana"))
         {
             anim.enabled = false;
 
@@ -53,8 +56,9 @@ public class FlickOff : MonoBehaviour
 
             Vector3 knockbackDirection = new Vector3(0, 1, 1); // ï˚å¸Çê≥ãKâª
             rb.AddForce(knockbackDirection * forceAmount, ForceMode.Impulse);
-
-           
+            //rbPare.AddForce(new Vector3(0, 0, 1) * forceAmount, ForceMode.Impulse);
+            parentTransform.position += new Vector3(0, 0, 1) * forceAmount * Time.deltaTime;
         }
     }
+    
 }
