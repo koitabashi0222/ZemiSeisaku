@@ -369,6 +369,12 @@ public class MeshCutNeo : MonoBehaviour
         fragment.GetComponent<MeshFilter>().mesh = fragMesh;
         fragment.GetComponent<MeshRenderer>().sharedMaterials = targetGameObject.GetComponent<MeshRenderer>().sharedMaterials;
 
+        foreach (Transform child in fragment.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+
+
         if (targetGameObject.GetComponent<MeshCollider>())
         {
             //頂点が1点に重なっている場合にはエラーが出るので, 直したい場合はmesh.RecalculateBoundsのあとでmesh.bounds.size.magnitude<0.00001などで条件分けして対処してください
