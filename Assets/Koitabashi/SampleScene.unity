@@ -369,27 +369,17 @@ MonoBehaviour:
   cuttingBoxSize: {x: 2, y: 0, z: 0.5}
   targetTag: Cuttable
   distanceThreshold: 0.4
+  forceAmount: 10
+--- !u!1 &398805664 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7299371483799964011, guid: 47ba8885507e58f428437d2ca923640b, type: 3}
+  m_PrefabInstance: {fileID: 851325697}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &434033315 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7299371483799964011, guid: 47ba8885507e58f428437d2ca923640b, type: 3}
   m_PrefabInstance: {fileID: 6721354477644302440}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &434033316
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 434033315}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73bad3439e887df4a84516b2fb7be479, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cuttingPlane: {fileID: 242193916}
-  capMaterial: {fileID: 2100000, guid: 6fcdf67acdff5944fb98ac1a30d12975, type: 2}
-  cuttingBoxSize: {x: 2, y: 0, z: 0.5}
-  targetTag: Cuttable
 --- !u!65 &434033317
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -443,6 +433,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7928379457842385873, guid: 47ba8885507e58f428437d2ca923640b, type: 3}
   m_PrefabInstance: {fileID: 6721354477644302440}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &434033320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 434033315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1c3c11ac67d07443b7dca9280aa2c0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cuttingPlane: {fileID: 242193916}
+  capMaterialCenter: {fileID: 2100000, guid: a86bc7574511af24d9959cbd2cc4a21c, type: 2}
+  capMaterialEdge: {fileID: 2100000, guid: 429bfa44049b8fe46b86d0c79137c680, type: 2}
+  cuttingBoxSize: {x: 2, y: 0, z: 0.5}
+  targetTag: Cuttable
+  distanceThreshold: 0.5
+  forceAmount: 10
 --- !u!1 &468740143
 GameObject:
   m_ObjectHideFlags: 0
@@ -1016,7 +1025,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7299371483799964011, guid: 47ba8885507e58f428437d2ca923640b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7928379457842385873, guid: 47ba8885507e58f428437d2ca923640b, type: 3}
       propertyPath: m_LocalScale.x
@@ -1081,7 +1090,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7928379457842385873, guid: 47ba8885507e58f428437d2ca923640b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 645227947}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7299371483799964011, guid: 47ba8885507e58f428437d2ca923640b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2074926464}
   m_SourcePrefab: {fileID: 100100000, guid: 47ba8885507e58f428437d2ca923640b, type: 3}
 --- !u!1 &913532563
 GameObject:
@@ -1749,7 +1761,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2027241743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1768,6 +1780,7 @@ MonoBehaviour:
   cuttingBoxSize: {x: 3, y: 0, z: 0.5}
   targetTag: Cuttable
   distanceThreshold: 0.5
+  forceAmount: 10
 --- !u!65 &2027241744
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1932,6 +1945,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7928379457842385873, guid: 47ba8885507e58f428437d2ca923640b, type: 3}
   m_PrefabInstance: {fileID: 851325697}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2074926464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 398805664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1c3c11ac67d07443b7dca9280aa2c0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cuttingPlane: {fileID: 645227945}
+  capMaterialCenter: {fileID: 2100000, guid: a86bc7574511af24d9959cbd2cc4a21c, type: 2}
+  capMaterialEdge: {fileID: 2100000, guid: 429bfa44049b8fe46b86d0c79137c680, type: 2}
+  cuttingBoxSize: {x: 2, y: 0.01, z: 2}
+  targetTag: Cuttable
+  distanceThreshold: 0.5
+  forceAmount: 10
 --- !u!1001 &6721354477644302440
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2020,7 +2052,7 @@ PrefabInstance:
       addedObject: {fileID: 434033317}
     - targetCorrespondingSourceObject: {fileID: 7299371483799964011, guid: 47ba8885507e58f428437d2ca923640b, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 434033316}
+      addedObject: {fileID: 434033320}
   m_SourcePrefab: {fileID: 100100000, guid: 47ba8885507e58f428437d2ca923640b, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
