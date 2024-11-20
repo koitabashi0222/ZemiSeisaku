@@ -8,14 +8,14 @@ public class FlickOff : MonoBehaviour
     public float forceAmount = 10f;
     public float rotationSpeed = 60f;
 
-    public bool isKnockedBack = false;
+    private Knockback knockbackScript;
 
     // Start is called before the first frame update
     void Start()
     {
         anim = gameObject.GetComponent<Animator>();
-        //rbPare = gameObject.GetComponentInParent<Rigidbody>();
         parentTransform = gameObject.GetComponentInParent<Transform>();
+        knockbackScript = transform.parent.GetComponent<Knockback>();
     }
 
     // Update is called once per frame
@@ -48,6 +48,7 @@ public class FlickOff : MonoBehaviour
 
         if (other.CompareTag("katana"))
         {
+            knockbackScript.ApplyKnockback();
             anim.enabled = false;
 
             Rigidbody rb = this.GetComponent<Rigidbody>();
@@ -56,8 +57,10 @@ public class FlickOff : MonoBehaviour
 
             Vector3 knockbackDirection = new Vector3(0, 1, 1); // ï˚å¸Çê≥ãKâª
             rb.AddForce(knockbackDirection * forceAmount, ForceMode.Impulse);
-            //rbPare.AddForce(new Vector3(0, 0, 1) * forceAmount, ForceMode.Impulse);
             parentTransform.position += new Vector3(0, 0, 1) * forceAmount * Time.deltaTime;
+
+            
+
         }
     }
     

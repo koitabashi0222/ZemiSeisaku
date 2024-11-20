@@ -1,26 +1,9 @@
-/*using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 public class PlayerSearch : MonoBehaviour
 {
     public float speed = 0.5f;
-    private Knockback knockbackScript;
-
-    void Start()
-    {
-        knockbackScript = transform.parent.GetComponent<Knockback>();
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            if (knockbackScript != null)
-            {
-                knockbackScript.ApplyKnockback();
-            }
-        }
-    }
 
     void OnTriggerStay(Collider other)
     {
@@ -40,33 +23,6 @@ public class PlayerSearch : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             Debug.Log("”»’è‚ðŠO‚ê‚½");
-        }
-    }
-}
-*/
-
-
-
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-public class PlayerSearch : MonoBehaviour
-{
-    private Knockback knockbackScript;
-
-    void Start()
-    {
-        knockbackScript = transform.parent.GetComponent<Knockback>();
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            if (knockbackScript != null)
-            {
-                knockbackScript.ApplyKnockback();
-            }
         }
     }
 }
