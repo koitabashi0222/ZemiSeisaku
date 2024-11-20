@@ -2,32 +2,18 @@ using UnityEngine;
 
 public class Knockback : MonoBehaviour
 {
-    public float knockbackForce = 10f;
-    private bool isKnockedBack = false;
+    public float knockbackForce = 1.0f;  // ノックバックの力
 
-    private Rigidbody rb;
-
-    void Start()
+    public void ApplyKnockback()
     {
-        rb = gameObject.AddComponent<Rigidbody>(); // Rigidbodyを追加
-        rb.isKinematic = true; // 通常時は物理演算を無効
-    }
 
-    void Update()
-    {
-        if (isKnockedBack)
+        Vector3 knockbackDirection = new Vector3(0, 1, 1).normalized;
+
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
         {
-           // Knockback();
-            isKnockedBack = false; // ノックバック処理後フラグをリセット
+            rb.velocity = Vector3.zero;  // 既存の速度をリセット
+            rb.AddForce(knockbackDirection * knockbackForce, ForceMode.Impulse);
         }
     }
-
-    public void TriggerKnockback(Vector3 direction)
-    {
-        isKnockedBack = true;
-        rb.isKinematic = false; // ノックバックを行うために一時的に無効化
-        rb.AddForce(direction * knockbackForce, ForceMode.Impulse);
-    }
-
-    
 }

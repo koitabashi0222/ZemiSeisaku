@@ -1,21 +1,25 @@
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Animations;
-
 public class PlayerSearch : MonoBehaviour
 {
     public float speed = 0.5f;
-    // Start is called before the first frame update
+    private Knockback knockbackScript;
+
     void Start()
     {
-        
+        knockbackScript = transform.parent.GetComponent<Knockback>();
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnTriggerEnter(Collider other)
     {
-        
+        if (other.gameObject.tag == "Player")
+        {
+            if (knockbackScript != null)
+            {
+                knockbackScript.ApplyKnockback();
+            }
+        }
     }
 
     void OnTriggerStay(Collider other)
@@ -27,10 +31,8 @@ public class PlayerSearch : MonoBehaviour
             Transform objectTransform = this.transform.parent;//gameObject.GetComponent<Transform>(); // ゲームオブジェクトのTransformコンポーネントを取得
             objectTransform.position = Vector3.Lerp(objectTransform.position, targetPosition, speed * Time.deltaTime); // 目的の位置に移動
 
-            Debug.Log("当たっている");
-
             transform.parent.LookAt(other.transform.parent);
-            Debug.Log(other.transform.parent); 
+
         }
     }
     void OnTriggerExit(Collider other)
@@ -38,6 +40,33 @@ public class PlayerSearch : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             Debug.Log("判定を外れた");
+        }
+    }
+}
+*/
+
+
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+public class PlayerSearch : MonoBehaviour
+{
+    private Knockback knockbackScript;
+
+    void Start()
+    {
+        knockbackScript = transform.parent.GetComponent<Knockback>();
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            if (knockbackScript != null)
+            {
+                knockbackScript.ApplyKnockback();
+            }
         }
     }
 }
