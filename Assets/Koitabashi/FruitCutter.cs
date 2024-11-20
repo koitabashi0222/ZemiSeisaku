@@ -45,7 +45,6 @@ public class FruitCutter : MonoBehaviour
         float distanceFromCenter = Vector3.Distance(targetCenter, anchorPoint);
         Material selectedCapMaterial = (distanceFromCenter < distanceThreshold) ? capMaterialCenter : capMaterialEdge;
 
-       
         (GameObject pieceA, GameObject pieceB) = MeshCutNeo.CutMesh(target, anchorPoint, normalDirection, true, selectedCapMaterial);
 
         if (pieceA != null && pieceB != null)
@@ -56,8 +55,26 @@ public class FruitCutter : MonoBehaviour
             ApplyForceToPiece(pieceA, new Vector3(1, 1, 1));
             ApplyForceToPiece(pieceB, new Vector3(-1, 1, 1));
 
-            StartCoroutine(HideAfterDelay(pieceA, pieceA.GetComponent<Rigidbody>(), 5f));
-            StartCoroutine(HideAfterDelay(pieceB, pieceB.GetComponent<Rigidbody>(), 5f));
+            // コライダーを無効化
+            Collider colliderA = pieceA.GetComponent<Collider>();
+            Collider colliderB = pieceB.GetComponent<Collider>();
+            if (colliderA != null) colliderA.enabled = false;
+            if (colliderB != null) colliderB.enabled = false;
+
+            StartCoroutine(EnableColliderAfterDelay(colliderA, 2f)); // 2秒後に再有効化
+            StartCoroutine(EnableColliderAfterDelay(colliderB, 2f)); // 2秒後に再有効化
+
+            StartCoroutine(HideAfterDelay(pieceA, pieceA.GetComponent<Rigidbody>(), colliderA, 5f));
+            StartCoroutine(HideAfterDelay(pieceB, pieceB.GetComponent<Rigidbody>(), colliderB, 5f));
+        }
+    }
+
+    IEnumerator EnableColliderAfterDelay(Collider collider, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (collider != null)
+        {
+            collider.enabled = true; // コライダーを再有効化
         }
     }
 
@@ -69,10 +86,11 @@ public class FruitCutter : MonoBehaviour
         rb.AddForce(forceDirection * forceAmount, ForceMode.Impulse);
     }
 
-    IEnumerator HideAfterDelay(GameObject piece, Rigidbody rb, float delay)
+    IEnumerator HideAfterDelay(GameObject piece, Rigidbody rb, Collider collider, float delay)
     {
         yield return new WaitForSeconds(delay);
-        piece.SetActive(false);
+        collider.enabled = true; // コライダーを再有効化
+        piece.SetActive(false); // 非表示にする
         alreadyCutObjects.Remove(piece);
     }
 
