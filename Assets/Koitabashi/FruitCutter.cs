@@ -83,7 +83,8 @@ public class FruitCutter : MonoBehaviour
         Rigidbody rb = piece.AddComponent<Rigidbody>();
         rb.mass = 1;
         Vector3 forceDirection = direction.normalized;
-        rb.AddForce(forceDirection * forceAmount, ForceMode.Impulse);
+        rb.AddForce(Vector3.up * Random.Range(1f, 3f), ForceMode.Impulse);
+        rb.AddTorque(new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)), ForceMode.Impulse);
     }
 
     IEnumerator HideAfterDelay(GameObject piece, Rigidbody rb, Collider collider, float delay)

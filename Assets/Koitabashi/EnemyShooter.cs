@@ -68,11 +68,15 @@ public class EnemyShooter : MonoBehaviour
                 Vector3 bulletDirection = (predictedPosition - bulletSpawnPoint.position).normalized;
                 rb.velocity = bulletDirection * bulletSpeed;
 
+                // ’e‚É”­ŽËŒ³‚ð“o˜^
+                Bullet bulletScript = bullet.GetComponent<Bullet>();
+                if (bulletScript != null)
+                {
+                    bulletScript.shooter = gameObject; // ‚±‚ÌEnemyShooter‚ð“o˜^
+                }
             }
 
             yield return new WaitForSeconds(shootInterval);
         }
     }
-
-
 }
