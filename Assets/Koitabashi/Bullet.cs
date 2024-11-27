@@ -27,9 +27,8 @@ public class Bullet : MonoBehaviour
                 isReflected = true;
             }
         }
-        else if (other.gameObject.tag == "EnemyHitbox" && isReflected)
+        else if (other.gameObject.tag == "Enemy" && isReflected)
         {
-            // 子オブジェクト ("EnemyHitbox") に当たった場合
             GameObject parent = other.transform.parent.gameObject; // 親オブジェクトを取得
 
             if (parent != null)

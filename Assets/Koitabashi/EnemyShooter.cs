@@ -55,18 +55,26 @@ public class EnemyShooter : MonoBehaviour
             {
                 // プレイヤーの速度を取得
                 PlayerMovementTracker tracker = player.GetComponent<PlayerMovementTracker>();
-                Vector3 playerVelocity = tracker != null ? tracker.CurrentVelocity : Vector3.zero;
+                Vector3 playerVelocity = tracker != null ? tracker.CurrentVelocity : new Vector3(0, 0, 5f);
 
-                // 弾が到達するまでの時間を計算
+                // 弾の到達時間を計算
                 float travelTime = Vector3.Distance(bulletSpawnPoint.position, playerCamera.position) / bulletSpeed;
 
-                // プレイヤーの予測位置を計算（Z軸方向に補正を加える）
+                // プレイヤーの未来位置を計算
                 Vector3 predictedPosition = playerCamera.position + playerVelocity * travelTime;
-                predictedPosition.z += 1.0f; // Z軸方向に補正（例：1.0fを適宜調整）
 
-                // 弾を予測位置方向に飛ばす
+                // デバッグラインで確認
+                Debug.DrawLine(bulletSpawnPoint.position, predictedPosition, Color.red, 2f); // 弾の進行ライン
+                Debug.DrawLine(playerCamera.position, playerCamera.position + playerVelocity, Color.green, 2f); // プレイヤーの進行ライン
+
+                // 正しい進行方向を計算
                 Vector3 bulletDirection = (predictedPosition - bulletSpawnPoint.position).normalized;
+
+                // 弾の速度を設定
                 rb.velocity = bulletDirection * bulletSpeed;
+
+                // 弾の回転を進行方向に合わせる（見た目を調整）
+                bullet.transform.forward = bulletDirection;
 
                 // 弾に発射元を登録
                 Bullet bulletScript = bullet.GetComponent<Bullet>();
@@ -76,7 +84,10 @@ public class EnemyShooter : MonoBehaviour
                 }
             }
 
+            // 次の弾を撃つまで待機
             yield return new WaitForSeconds(shootInterval);
         }
     }
+
+
 }

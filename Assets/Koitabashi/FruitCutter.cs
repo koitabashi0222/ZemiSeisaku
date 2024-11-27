@@ -6,11 +6,11 @@ using BLINDED_AM_ME;
 public class FruitCutter : MonoBehaviour
 {
     public GameObject cuttingPlane;
-    public Material capMaterialCenter;
-    public Material capMaterialEdge;
+    public Material capMaterialCenter; // 中心付近のマテリアル
+    public Material capMaterialEdge;   // 通常のマテリアル
     public Vector3 cuttingBoxSize = new Vector3(2, 0.01f, 2);
     public string targetTag = "Cuttable";
-    public float distanceThreshold = 0.5f;
+    public float distanceThreshold = 0.5f; // 中心付近と判定する距離の閾値
     private HashSet<GameObject> alreadyCutObjects = new HashSet<GameObject>();
 
     public float forceAmount = 10f;
@@ -22,11 +22,9 @@ public class FruitCutter : MonoBehaviour
             MeshRenderer targetRenderer = other.GetComponent<MeshRenderer>();
             if (targetRenderer != null)
             {
-               
                 Bounds cuttingBounds = new Bounds(cuttingPlane.transform.position, cuttingBoxSize);
                 Bounds targetBounds = targetRenderer.bounds;
 
-               
                 if (cuttingBounds.Intersects(targetBounds))
                 {
                     PerformCut(other.gameObject);
@@ -43,7 +41,9 @@ public class FruitCutter : MonoBehaviour
 
         Vector3 targetCenter = target.GetComponent<Collider>().bounds.center;
         float distanceFromCenter = Vector3.Distance(targetCenter, anchorPoint);
-        Material selectedCapMaterial = (distanceFromCenter < distanceThreshold) ? capMaterialCenter : capMaterialEdge;
+
+        Material selectedCapMaterial = capMaterialEdge; // デフォルトのマテリアル
+        bool isNearCenter = distanceFromCenter < distanceThreshold;
 
         (GameObject pieceA, GameObject pieceB) = MeshCutNeo.CutMesh(target, anchorPoint, normalDirection, true, selectedCapMaterial);
 
@@ -51,6 +51,13 @@ public class FruitCutter : MonoBehaviour
         {
             alreadyCutObjects.Add(pieceA);
             alreadyCutObjects.Add(pieceB);
+
+            // 中心付近なら中心マテリアルを追加適用
+            if (isNearCenter)
+            {
+                ApplyCenterMaterial(pieceA);
+                ApplyCenterMaterial(pieceB);
+            }
 
             ApplyForceToPiece(pieceA, new Vector3(1, 1, 1));
             ApplyForceToPiece(pieceB, new Vector3(-1, 1, 1));
@@ -61,11 +68,30 @@ public class FruitCutter : MonoBehaviour
             if (colliderA != null) colliderA.enabled = false;
             if (colliderB != null) colliderB.enabled = false;
 
-            StartCoroutine(EnableColliderAfterDelay(colliderA, 2f)); // 2秒後に再有効化
-            StartCoroutine(EnableColliderAfterDelay(colliderB, 2f)); // 2秒後に再有効化
+            StartCoroutine(EnableColliderAfterDelay(colliderA, 0.5f));
+            StartCoroutine(EnableColliderAfterDelay(colliderB, 0.5f));
 
             StartCoroutine(HideAfterDelay(pieceA, pieceA.GetComponent<Rigidbody>(), colliderA, 5f));
             StartCoroutine(HideAfterDelay(pieceB, pieceB.GetComponent<Rigidbody>(), colliderB, 5f));
+        }
+    }
+
+    // 切断面に中心マテリアルを適用する処理
+    void ApplyCenterMaterial(GameObject piece)
+    {
+        MeshRenderer meshRenderer = piece.GetComponent<MeshRenderer>();
+        if (meshRenderer != null)
+        {
+            Material[] currentMaterials = meshRenderer.sharedMaterials;
+            List<Material> updatedMaterials = new List<Material>(currentMaterials);
+
+            // 中心マテリアルを追加
+            if (!updatedMaterials.Contains(capMaterialCenter))
+            {
+                updatedMaterials.Add(capMaterialCenter);
+            }
+
+            meshRenderer.sharedMaterials = updatedMaterials.ToArray();
         }
     }
 
