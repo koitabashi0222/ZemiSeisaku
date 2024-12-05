@@ -1158,10 +1158,3 @@ public class MeshCutNeo : MonoBehaviour
         return cutLineX | cutLineY | cutLineZ;
     }
 }
-
-
-
-
-
-
-

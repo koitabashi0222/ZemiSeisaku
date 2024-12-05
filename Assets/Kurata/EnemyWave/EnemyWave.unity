@@ -6519,6 +6519,26 @@ PrefabInstance:
       propertyPath: m_TagString
       value: katana
       objectReference: {fileID: 0}
+    - target: {fileID: 7190433733339575786, guid: eea325e27da6b1342b908c714c5edfea, type: 3}
+      propertyPath: m_Time
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7190433733339575786, guid: eea325e27da6b1342b908c714c5edfea, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 306d02fce39d46c45b945e9f7598fbb0, type: 2}
+    - target: {fileID: 7190433733339575786, guid: eea325e27da6b1342b908c714c5edfea, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7190433733339575786, guid: eea325e27da6b1342b908c714c5edfea, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].time
+      value: 0.9739075
+      objectReference: {fileID: 0}
+    - target: {fileID: 7190433733339575786, guid: eea325e27da6b1342b908c714c5edfea, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].value
+      value: 0.2630849
+      objectReference: {fileID: 0}
     - target: {fileID: 7738497968450192645, guid: eea325e27da6b1342b908c714c5edfea, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -6575,7 +6595,8 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5948948515460466227, guid: eea325e27da6b1342b908c714c5edfea, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
