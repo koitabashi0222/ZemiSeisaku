@@ -106,11 +106,16 @@ public class FruitCutter : MonoBehaviour
 
     void ApplyForceToPiece(GameObject piece, Vector3 direction)
     {
+        foreach (Transform child in piece.transform)
+        {
+            // 子オブジェクトを削除
+            Destroy(child.gameObject);
+        }
         Rigidbody rb = piece.AddComponent<Rigidbody>();
         rb.mass = 1;
         Vector3 forceDirection = direction.normalized;
         rb.AddForce(Vector3.up * Random.Range(1f, 3f), ForceMode.Impulse);
-        rb.AddTorque(new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)), ForceMode.Impulse);
+        rb.AddTorque(new Vector3(Random.Range(-10f, 10f), Random.Range(-10f, 10f), Random.Range(-10f, 10f)), ForceMode.Impulse);
     }
 
     IEnumerator HideAfterDelay(GameObject piece, Rigidbody rb, Collider collider, float delay)
