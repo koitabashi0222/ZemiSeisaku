@@ -58,7 +58,7 @@ public class EnemyShooter : MonoBehaviour
                 Vector3 playerVelocity = tracker != null ? tracker.CurrentVelocity : new Vector3(0, 0, 5f);
 
                 // 弾の到達時間を計算
-                float travelTime = Vector3.Distance(bulletSpawnPoint.position, playerCamera.position) / bulletSpeed;
+                float travelTime = Vector3.Distance(bulletSpawnPoint.position, playerCamera.position) / bulletSpeed*0.5f;//ここの数字いじればプレイヤーの視点に対してどこに飛ぶか変わる
 
                 // プレイヤーの未来位置を計算
                 Vector3 predictedPosition = playerCamera.position + playerVelocity * travelTime;
