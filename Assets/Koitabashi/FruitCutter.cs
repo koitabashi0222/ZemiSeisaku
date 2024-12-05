@@ -20,6 +20,30 @@ public class FruitCutter : MonoBehaviour
     {
         if (other.CompareTag(targetTag) && !alreadyCutObjects.Contains(other.gameObject))
         {
+            // 剣の進行方向と接触位置を取得
+            Vector3 anchorPoint = transform.position;
+            Vector3 normalDirection = transform.forward;
+
+            // Planeを生成
+            /*SwordPlaneGenerator planeGenerator = GetComponent<SwordPlaneGenerator>();
+            if (planeGenerator != null)
+            {
+                planeGenerator.GeneratePlane(other.gameObject, anchorPoint, normalDirection);
+            }*/
+
+            // victimオブジェクトのローカル空間でPlaneを生成
+            Vector3 localNormal = other.transform.InverseTransformDirection(-normalDirection.normalized);
+            Vector3 localPoint = other.transform.InverseTransformPoint(anchorPoint);
+            Plane bladePlane = new Plane(localNormal, localPoint);
+
+            // Planeを視覚化
+            SwordPlaneGenerator visualizer = GetComponent<SwordPlaneGenerator>();
+            if (visualizer != null)
+            {
+                visualizer.VisualizePlane(bladePlane, other.transform, 2.0f, Color.red); // サイズと色を指定
+            }
+
+
             MeshRenderer targetRenderer = other.GetComponent<MeshRenderer>();
             if (targetRenderer != null)
             {
