@@ -13,7 +13,8 @@ public class FruitCutter : MonoBehaviour
     public float distanceThreshold = 0.5f; // 中心付近と判定する距離の閾値
     private HashSet<GameObject> alreadyCutObjects = new HashSet<GameObject>();
 
-    public float forceAmount = 10f;
+    public Haptics hapticsController;
+    private Effect effect;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -29,6 +30,12 @@ public class FruitCutter : MonoBehaviour
                 {
                     PerformCut(other.gameObject);
                     alreadyCutObjects.Add(other.gameObject);
+
+                    // Haptics への通知
+                    if (hapticsController != null)
+                    {
+                        hapticsController.TriggerHaptics(); // 振動をトリガー
+                    }
                 }
             }
         }
