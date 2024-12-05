@@ -5052,31 +5052,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7738497968450192645, guid: eea325e27da6b1342b908c714c5edfea, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.58255506
       objectReference: {fileID: 0}
     - target: {fileID: 7738497968450192645, guid: eea325e27da6b1342b908c714c5edfea, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.143
+      value: 0.049366236
       objectReference: {fileID: 0}
     - target: {fileID: 7738497968450192645, guid: eea325e27da6b1342b908c714c5edfea, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.117
+      value: 0.020213604
       objectReference: {fileID: 0}
     - target: {fileID: 7738497968450192645, guid: eea325e27da6b1342b908c714c5edfea, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9523958
+      value: 0.88327956
       objectReference: {fileID: 0}
     - target: {fileID: 7738497968450192645, guid: eea325e27da6b1342b908c714c5edfea, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.30486432
+      value: 0.28274006
       objectReference: {fileID: 0}
     - target: {fileID: 7738497968450192645, guid: eea325e27da6b1342b908c714c5edfea, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.11401897
       objectReference: {fileID: 0}
     - target: {fileID: 7738497968450192645, guid: eea325e27da6b1342b908c714c5edfea, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: 0.35619518
       objectReference: {fileID: 0}
     - target: {fileID: 7738497968450192645, guid: eea325e27da6b1342b908c714c5edfea, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -5088,7 +5088,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7738497968450192645, guid: eea325e27da6b1342b908c714c5edfea, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 43.925
       objectReference: {fileID: 0}
     - target: {fileID: 7738497968450192645, guid: eea325e27da6b1342b908c714c5edfea, type: 3}
       propertyPath: m_ConstrainProportionsScale
@@ -5144,11 +5144,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1060313864}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f95cc4add1af1a5409349d8c570fd648, type: 3}
+  m_Script: {fileID: 11500000, guid: 805c0c7527972564b96f8265a8a22d2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slashPrefab: {fileID: 5121795166148533864, guid: f8ccfd5c3a9bba24e87699cb150ca828, type: 3}
-  glowingMaterial: {fileID: 2100000, guid: c30f38a47bb7906449628c7a48646cb1, type: 2}
 --- !u!1001 &1078247565
 PrefabInstance:
   m_ObjectHideFlags: 0
