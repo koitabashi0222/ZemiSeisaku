@@ -1,28 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 public class PlayerSearch : MonoBehaviour
 {
     public float speed = 0.5f;
 
     void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.CompareTag("Player"))
         {
-            Vector3 targetPosition = other.transform.parent.position;// otherの親オブジェクトの位置の座標を指定
+            Transform targetParent = other.transform.parent;
+            Transform thisParent = this.transform.parent;
 
-            Transform objectTransform = this.transform.parent;//gameObject.GetComponent<Transform>(); // ゲームオブジェクトのTransformコンポーネントを取得
-            objectTransform.position = Vector3.Lerp(objectTransform.position, targetPosition, speed * Time.deltaTime); // 目的の位置に移動
+            if (targetParent != null && thisParent != null)
+            {
+                Vector3 targetPosition = targetParent.position;
+                thisParent.position = Vector3.MoveTowards(thisParent.position, targetPosition, speed * Time.deltaTime);
 
-            transform.parent.LookAt(other.transform.parent);
+                thisParent.LookAt(targetParent);
 
+                // デバッグ用（移動方向を赤い線で表示）
+                Debug.DrawLine(thisParent.position, targetPosition, Color.red);
+            }
         }
     }
+
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.CompareTag("Player"))
         {
-            Debug.Log("判定を外れた");
+            Debug.Log("プレイヤーが判定範囲を離れた");
         }
     }
 }
