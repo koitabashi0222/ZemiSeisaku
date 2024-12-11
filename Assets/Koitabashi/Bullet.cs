@@ -17,7 +17,7 @@ public class Bullet : MonoBehaviour
         if (other.gameObject.tag == "katana" && !isReflected)
         {
             SwordTracker swordTracker = other.GetComponent<SwordTracker>();
-            if (swordTracker != null && swordTracker.currentSpeed > 1.25f) // ğŒ: “‚Ì‘¬“x‚ª5ˆÈã
+            if (swordTracker != null && swordTracker.currentSpeed > 3.0f) // ğŒ: “‚Ì‘¬“x‚ª5ˆÈã
             {
                 // ’µ‚Ë•Ô‚µˆ—
                 if (shooter != null)
