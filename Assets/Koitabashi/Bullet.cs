@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -5,6 +6,8 @@ public class Bullet : MonoBehaviour
     public float speed = 10f; // 弾の速度
     public GameObject shooter; // 発射元のEnemyShooter
     private bool isReflected = false; // 跳ね返しフラグ
+    [Header("刀で斬る時の速度閾値")]
+    [SerializeField] float katanaSpeed = 3.0f;
 
     void Start()
     {
@@ -17,7 +20,7 @@ public class Bullet : MonoBehaviour
         if (other.gameObject.tag == "katana" && !isReflected)
         {
             SwordTracker swordTracker = other.GetComponent<SwordTracker>();
-            if (swordTracker != null && swordTracker.currentSpeed > 3.0f) // 条件: 刀の速度が5以上
+            if (swordTracker != null && swordTracker.currentSpeed > katanaSpeed) // 条件: 刀の速度が5以上
             {
                 // 跳ね返し処理
                 if (shooter != null)

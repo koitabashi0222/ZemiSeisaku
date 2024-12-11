@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4945300016659803160}
   - component: {fileID: 8247684066141056368}
   - component: {fileID: 4499671486610096463}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -147,3 +147,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
+  shooter: {fileID: 0}
+  katanaSpeed: 3
