@@ -236,6 +236,7 @@ MonoBehaviour:
   shootInterval: 2
   bulletSpeed: 30
   predictionTime: 0.5
+  shootSound: {fileID: 8300000, guid: fd02f70afeb1d6646aa3c8d555456511, type: 3}
 --- !u!1001 &2471977090457711291
 PrefabInstance:
   m_ObjectHideFlags: 0
