@@ -6,8 +6,13 @@ public class Bullet : MonoBehaviour
     public float speed = 10f; // 弾の速度
     public GameObject shooter; // 発射元のEnemyShooter
     private bool isReflected = false; // 跳ね返しフラグ
+
     [Header("刀で斬る時の速度閾値")]
-    [SerializeField] float katanaSpeed = 3.0f;
+    [SerializeField] private float katanaSpeed = 3.0f;
+
+    [Header("サウンド関連")]
+    [SerializeField] private AudioClip reflectSound; // 刀に当たった時の音
+    [SerializeField] private AudioClip hitEnemySound; // 敵に当たった時の音
 
     void Start()
     {
@@ -20,7 +25,7 @@ public class Bullet : MonoBehaviour
         if (other.gameObject.tag == "katana" && !isReflected)
         {
             SwordTracker swordTracker = other.GetComponent<SwordTracker>();
-            if (swordTracker != null && swordTracker.currentSpeed > katanaSpeed) // 条件: 刀の速度が5以上
+            if (swordTracker != null && swordTracker.currentSpeed > katanaSpeed) // 条件: 刀の速度が指定以上
             {
                 // 跳ね返し処理
                 if (shooter != null)
@@ -34,6 +39,9 @@ public class Bullet : MonoBehaviour
 
                     transform.rotation = Quaternion.LookRotation(reflectedDirection);
                     isReflected = true;
+
+                    // 刀に当たった時の音を再生
+                    SoundManager.PlaySound(reflectSound, transform.position,10f,150f);
                 }
             }
             else
@@ -43,12 +51,16 @@ public class Bullet : MonoBehaviour
         }
         else if (other.gameObject.tag == "Enemy" && isReflected)
         {
-            GameObject parent = other.transform.parent.gameObject; // 親オブジェクトを取得
+            GameObject parent = other.transform.parent?.gameObject; // 親オブジェクトを取得
 
             if (parent != null)
             {
                 Destroy(parent); // 親オブジェクトを削除
             }
+
+            // 敵に当たった時の音を再生
+            SoundManager.PlaySound(hitEnemySound, transform.position,10f,150f);
+
             Destroy(gameObject); // 弾を削除
         }
     }
