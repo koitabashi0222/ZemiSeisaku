@@ -18987,7 +18987,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20316761587a6104ba6c755f3270ddbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  target: {fileID: 744006868}
   followMoveSpeed: 0.1
   followRotateSpeed: 0.06
   rotateSpeedThreshold: 0.9
@@ -24184,7 +24184,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1982060646
 Transform:
   m_ObjectHideFlags: 0
