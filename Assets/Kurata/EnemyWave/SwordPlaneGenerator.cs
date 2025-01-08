@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 
 public class SwordPlaneGenerator : MonoBehaviour
 {
@@ -68,3 +68,4 @@ public class SwordPlaneGenerator : MonoBehaviour
         }
     }
 }
+*/

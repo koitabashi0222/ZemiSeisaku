@@ -70,6 +70,9 @@ public class PlayerSearch : MonoBehaviour
     }
 
     // ジグザグ追従の処理
+    // 既存コードの続き
+
+    // ジグザグ追従の処理
     private void ZigZagFollow(Transform targetParent, Transform thisParent)
     {
         if (bounceDirections.Count == 0 || waveSteps.Count == 0 || moveDistances.Count == 0) return;
@@ -118,12 +121,14 @@ public class PlayerSearch : MonoBehaviour
                 }
                 else
                 {
-                    remainingSteps = waveSteps[waveSteps.Count - 1];
-                    currentAmplitude = moveDistances[moveDistances.Count - 1]; // 繰り返し処理の場合
+                    // ジグザグ完了、モードを直線追従に切り替える
+                    followMode = FollowMode.Straight;
+                    Debug.Log("ZigZag completed, switching to Straight follow mode.");
                 }
             }
         }
     }
+
 
     void OnTriggerExit(Collider other)
     {

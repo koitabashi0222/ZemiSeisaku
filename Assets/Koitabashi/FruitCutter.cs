@@ -37,11 +37,11 @@ public class FruitCutter : MonoBehaviour
             Plane bladePlane = new Plane(localNormal, localPoint);
 
             // Planeを視覚化
-            SwordPlaneGenerator visualizer = GetComponent<SwordPlaneGenerator>();
-            if (visualizer != null)
-            {
-                visualizer.VisualizePlane(bladePlane, other.transform, 2.0f, Color.red); // サイズと色を指定
-            }
+            //SwordPlaneGenerator visualizer = GetComponent<SwordPlaneGenerator>();
+            //if (visualizer != null)
+            //{
+            //    visualizer.VisualizePlane(bladePlane, other.transform, 2.0f, Color.red); // サイズと色を指定
+            //}
 
 
             MeshRenderer targetRenderer = other.GetComponent<MeshRenderer>();
