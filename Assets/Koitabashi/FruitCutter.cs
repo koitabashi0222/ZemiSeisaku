@@ -13,8 +13,8 @@ public class FruitCutter : MonoBehaviour
     public float distanceThreshold = 0.5f; // 中心付近と判定する距離の閾値
     private HashSet<GameObject> alreadyCutObjects = new HashSet<GameObject>();
 
-    public Haptics hapticsController;
-    private Effect effect;
+    public Haptics hapticsController; // ハプティクスコントローラー
+    public bool isRightHand = true;   // True:右手, False:左手
 
     private void OnTriggerEnter(Collider other)
     {
@@ -23,26 +23,6 @@ public class FruitCutter : MonoBehaviour
             // 剣の進行方向と接触位置を取得
             Vector3 anchorPoint = transform.position;
             Vector3 normalDirection = transform.forward;
-
-            // Planeを生成
-            /*SwordPlaneGenerator planeGenerator = GetComponent<SwordPlaneGenerator>();
-            if (planeGenerator != null)
-            {
-                planeGenerator.GeneratePlane(other.gameObject, anchorPoint, normalDirection);
-            }*/
-
-            // victimオブジェクトのローカル空間でPlaneを生成
-            Vector3 localNormal = other.transform.InverseTransformDirection(-normalDirection.normalized);
-            Vector3 localPoint = other.transform.InverseTransformPoint(anchorPoint);
-            Plane bladePlane = new Plane(localNormal, localPoint);
-
-            // Planeを視覚化
-            //SwordPlaneGenerator visualizer = GetComponent<SwordPlaneGenerator>();
-            //if (visualizer != null)
-            //{
-            //    visualizer.VisualizePlane(bladePlane, other.transform, 2.0f, Color.red); // サイズと色を指定
-            //}
-
 
             MeshRenderer targetRenderer = other.GetComponent<MeshRenderer>();
             if (targetRenderer != null)
@@ -55,10 +35,17 @@ public class FruitCutter : MonoBehaviour
                     PerformCut(other.gameObject);
                     alreadyCutObjects.Add(other.gameObject);
 
-                    // Haptics への通知
+                    // ハプティクスへの通知
                     if (hapticsController != null)
                     {
-                        hapticsController.TriggerHaptics(); // 振動をトリガー
+                        if (isRightHand)
+                        {
+                            hapticsController.TriggerHaptics(); // 右手振動
+                        }
+                        else
+                        {
+                            hapticsController.TriggerHapticsLeft(); // 左手振動
+                        }
                     }
                 }
             }

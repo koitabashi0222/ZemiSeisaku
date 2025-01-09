@@ -1,36 +1,65 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Haptics : MonoBehaviour
 {
-    public AudioSource audiosource;
-    private OVRHapticsClip hapticsClip;
+    public AudioSource audioSource;
+    private OVRHapticsClip hapticsClipRight;
+    private OVRHapticsClip hapticsClipLeft;
 
     void Start()
     {
-        hapticsClip = new OVRHapticsClip(audiosource.clip);
+        // オーディオクリップを使用してハプティクスクリップを作成
+        if (audioSource != null && audioSource.clip != null)
+        {
+            hapticsClipRight = new OVRHapticsClip(audioSource.clip);
+            hapticsClipLeft = new OVRHapticsClip(audioSource.clip);
+        }
     }
 
+    /// <summary>
+    /// 右手コントローラーの振動をトリガーします
+    /// </summary>
     public void TriggerHaptics()
     {
-        StartCoroutine(VibrateController(0.5f, 1f, 1f)); // 0.5秒間振動
+        StartCoroutine(VibrateController(OVRInput.Controller.RTouch, 0.5f, 1f, 1f)); // 0.5秒間振動
 
-        if (hapticsClip != null)
+        if (hapticsClipRight != null)
         {
-            OVRHaptics.RightChannel.Mix(hapticsClip);
+            OVRHaptics.RightChannel.Mix(hapticsClipRight);
         }
 
-        if (audiosource != null)
+        if (audioSource != null)
         {
-            audiosource.Play();
+            audioSource.Play();
         }
     }
 
-    private IEnumerator VibrateController(float duration, float frequency, float amplitude)
+    /// <summary>
+    /// 左手コントローラーの振動をトリガーします
+    /// </summary>
+    public void TriggerHapticsLeft()
     {
-        OVRInput.SetControllerVibration(frequency, amplitude, OVRInput.Controller.RTouch);
+        StartCoroutine(VibrateController(OVRInput.Controller.LTouch, 0.5f, 1f, 1f)); // 0.5秒間振動
+
+        if (hapticsClipLeft != null)
+        {
+            OVRHaptics.LeftChannel.Mix(hapticsClipLeft);
+        }
+
+        if (audioSource != null)
+        {
+            audioSource.Play();
+        }
+    }
+
+    /// <summary>
+    /// 指定したコントローラーで振動を開始します
+    /// </summary>
+    private IEnumerator VibrateController(OVRInput.Controller controller, float duration, float frequency, float amplitude)
+    {
+        OVRInput.SetControllerVibration(frequency, amplitude, controller);
         yield return new WaitForSeconds(duration);
-        OVRInput.SetControllerVibration(0, 0, OVRInput.Controller.RTouch);
+        OVRInput.SetControllerVibration(0, 0, controller);
     }
 }
