@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using BLINDED_AM_ME;
 
-public class FruitCutter : MonoBehaviour
+public class aaa : MonoBehaviour
 {
     public GameObject cuttingPlane;
     public Material capMaterialCenter; // 中心付近のマテリアル
@@ -63,10 +63,14 @@ public class FruitCutter : MonoBehaviour
         Material selectedCapMaterial = capMaterialEdge; // デフォルトのマテリアル
         bool isNearCenter = distanceFromCenter < distanceThreshold;
 
-        (GameObject pieceA, GameObject pieceB) = MeshCutNeo.CutMesh(target, anchorPoint, normalDirection, true, selectedCapMaterial);
+        // 'capMaterialEdge' を渡すように変更
+        GameObject[] pieces = SimpleMeshCutNeo.Cut(target, anchorPoint, normalDirection, selectedCapMaterial);
 
-        if (pieceA != null && pieceB != null)
+        if (pieces.Length == 2)
         {
+            GameObject pieceA = pieces[0];
+            GameObject pieceB = pieces[1];
+
             alreadyCutObjects.Add(pieceA);
             alreadyCutObjects.Add(pieceB);
 
@@ -93,6 +97,9 @@ public class FruitCutter : MonoBehaviour
             StartCoroutine(HideAfterDelay(pieceB, pieceB.GetComponent<Rigidbody>(), colliderB, 5f));
         }
     }
+
+
+
 
     // 切断面に中心マテリアルを適用する処理
     void ApplyCenterMaterial(GameObject piece)
@@ -139,7 +146,12 @@ public class FruitCutter : MonoBehaviour
     IEnumerator HideAfterDelay(GameObject piece, Rigidbody rb, Collider collider, float delay)
     {
         yield return new WaitForSeconds(delay);
-        collider.enabled = true; // コライダーを再有効化
+
+        if (collider != null)
+        {
+            collider.enabled = true; // コライダーを再有効化
+        }
+
         piece.SetActive(false); // 非表示にする
         alreadyCutObjects.Remove(piece);
     }

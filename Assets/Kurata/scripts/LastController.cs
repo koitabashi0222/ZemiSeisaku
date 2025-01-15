@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class LastController : MonoBehaviour
 {
-    public Transform player; // プレイヤーのTransform
+    public Transform player;
     public GameObject[] targetObjects; // 監視するオブジェクト（2つ設定する）
-    public float moveSpeed = 5f; // 移動速度
+    public float moveSpeed = 5f;
 
     private bool shouldMoveToPlayer = false; // プレイヤーに向かって移動するかどうか
 
@@ -25,20 +25,21 @@ public class LastController : MonoBehaviour
         }
     }
 
-    // 監視するオブジェクトがすべて破壊されているか判定
     private bool AreAllTargetsDestroyed()
     {
         foreach (GameObject target in targetObjects)
         {
-            if (target != null) return false; // オブジェクトが存在する場合は移動しない
+            if (target != null && target.activeInHierarchy) return false; // オブジェクトが破壊または非アクティブでない場合は移動しない
         }
-        return true; // すべて破壊されていたらtrue
+        return true; // すべて破壊されていたら
     }
 
-    // プレイヤーに向かって移動する
     private void MoveTowardsPlayer()
     {
-        Vector3 direction = (player.position - transform.position).normalized; // プレイヤーへの方向
-        transform.position += direction * moveSpeed * Time.deltaTime; // プレイヤーへ移動
+        // プレイヤーへの方向
+        Vector3 direction = (player.position - transform.position).normalized;
+
+        // 移動ベクトル
+        transform.position = Vector3.MoveTowards(transform.position, player.position, moveSpeed * Time.deltaTime);
     }
 }
