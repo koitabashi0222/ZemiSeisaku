@@ -4,7 +4,16 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/start.unity
+    guid: 96a506e23bf805c44b46576b8227c352
+  - enabled: 1
+    path: Assets/Scenes/EnemyWave.unity
+    guid: 25fae551611a71843a30eb814814ab96
+  - enabled: 1
+    path: Assets/Scenes/Over.unity
+    guid: deb032d47972a2b4db3b688a878977eb
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: c383b413c5ee9994389917522c9a459d, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 0158f8e547e06b348aca64c09279c041, type: 2}
