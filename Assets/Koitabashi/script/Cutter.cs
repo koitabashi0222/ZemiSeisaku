@@ -1,6 +1,12 @@
+/*************************************************************
+ * 
+ * このスクリプトは最終的に使用されていません。
+ * 
+ *************************************************************/
+
+
 using UnityEngine;
 using BLINDED_AM_ME;
-
 public class Cutter : MonoBehaviour
 {
     public GameObject victim;           // 切断対象のオブジェクト

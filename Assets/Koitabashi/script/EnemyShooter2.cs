@@ -1,3 +1,4 @@
+//ボス用にEnemyShooterを改善したら普通のエネミーがおかしくなったのでそっち用に再度作成
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
